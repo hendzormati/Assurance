@@ -42,9 +42,9 @@ def mock_predict(inputs: dict) -> float:
 
 
 def segment_label(p, threshold):
-    if p >= threshold:     return "Certain ✅",    "certain"
-    elif p >= 0.25:        return "Incertain ⚠️", "uncertain"
-    else:                  return "Improbable ❌", "unlikely"
+    if p >= threshold:     return "Certain",    "certain"
+    elif p >= 0.25:        return "Incertain", "uncertain"
+    else:                  return "Improbable", "unlikely"
 
 
 SEG_COLORS = {"certain": "#10B981", "uncertain": "#1B4FD8", "unlikely": "#94A3B8"}
@@ -60,7 +60,7 @@ def show():
     st.markdown("<br>", unsafe_allow_html=True)
 
     if not model_loaded:
-        st.info("ℹ️ Modèle non chargé — mode démo actif (prédictions heuristiques).")
+        st.info("Modèle non chargé - mode démo actif (prédictions heuristiques).")
 
     # ── Input form ─────────────────────────────────────────────────────────────
     section_header("Profil client")
@@ -68,7 +68,7 @@ def show():
     col_a, col_b, col_c = st.columns(3)
 
     with col_a:
-        st.markdown("**👤 Informations personnelles**")
+        st.markdown("**Informations personnelles**")
         age    = st.slider("Âge", 18, 85, 35)
         genre  = st.selectbox("Genre", ["Male", "Female"],
                               format_func=lambda x: "Homme" if x == "Male" else "Femme")
@@ -76,7 +76,7 @@ def show():
                               format_func=lambda x: "Oui" if x else "Non")
 
     with col_b:
-        st.markdown("**🚗 Véhicule & historique**")
+        st.markdown("**Véhicule & historique**")
         ancien_assure      = st.selectbox("Déjà assuré auparavant ?", [0, 1],
                                           format_func=lambda x: "Non" if x == 0 else "Oui")
         vehicule_endommage = st.selectbox("Véhicule déjà endommagé ?", ["Yes", "No"],
@@ -84,7 +84,7 @@ def show():
         age_vehicule       = st.selectbox("Âge du véhicule", list(AGE_VEHICULE_MAP.keys()))
 
     with col_c:
-        st.markdown("**📋 Contrat actuel**")
+        st.markdown("**Contrat actuel**")
         prime_annuelle = st.number_input("Prime annuelle (€)", 2000, 100_000, 28_000, step=500)
         anciennete     = st.slider("Ancienneté client (jours)", 10, 300, 120)
         canal = st.number_input(
@@ -99,7 +99,7 @@ def show():
         help="Abaissez le seuil pour capturer plus de clients (recall ↑, précision ↓)",
     )
 
-    predict_btn = st.button("🎯  Calculer la probabilité", type="primary", use_container_width=True)
+    predict_btn = st.button("Calculer la probabilité", type="primary", use_container_width=True)
 
     # Build inputs dict with ENCODED canal
     inputs = dict(
@@ -180,7 +180,7 @@ def show():
                     <tr><td style="color:#64748b;padding:2px 0">Canal</td>
                         <td style="font-weight:600">{inputs['canal_label']}</td></tr>
                     <tr><td style="color:#64748b;padding:2px 0">Recommandation</td>
-                        <td style="font-weight:600">{"📞 Contacter" if seg != "unlikely" else "⏭️ Passer"}</td></tr>
+                        <td style="font-weight:600">{" Contacter" if seg != "unlikely" else " Passer"}</td></tr>
                 </table>
             </div>""", unsafe_allow_html=True)
 
@@ -206,7 +206,7 @@ def show():
     st.markdown("<br>", unsafe_allow_html=True)
 
     # ── Sensitivity charts ────────────────────────────────────────────────────
-    section_header("Sensibilité — âge et prime annuelle")
+    section_header("Sensibilité - âge et prime annuelle")
 
     base = dict(age=35, genre="Male", permis_conduire=1, ancien_assure=0,
                 vehicule_endommage="Yes", age_vehicule="1-2 ans",
@@ -270,18 +270,18 @@ def show():
 def _explain_factors(inputs):
     factors = []
     if inputs.get("vehicule_endommage") == "Yes":
-        factors.append(("✅", "Véhicule endommagé → fort signal positif"))
+        factors.append(("Véhicule endommagé → fort signal positif"))
     if inputs.get("ancien_assure") == 0:
-        factors.append(("✅", "Jamais assuré avant → prospect chaud"))
+        factors.append(("Jamais assuré avant → prospect chaud"))
     if 25 <= inputs.get("age", 35) <= 45:
-        factors.append(("✅", "Tranche 25-45 ans → profil cible"))
+        factors.append(("Tranche 25-45 ans → profil cible"))
     if inputs.get("prime_annuelle", 30000) < 25000:
-        factors.append(("✅", "Prime faible → sensible au rapport qualité/prix"))
+        factors.append(("Prime faible → sensible au rapport qualité/prix"))
     if inputs.get("ancien_assure") == 1:
-        factors.append(("⚠️", "Déjà assuré → moins susceptible de changer"))
+        factors.append(("Déjà assuré → moins susceptible de changer"))
     if inputs.get("vehicule_endommage") == "No":
-        factors.append(("⚠️", "Véhicule intact → intérêt réduit"))
-    return factors[:4] if factors else [("ℹ️", "Profil neutre")]
+        factors.append(("Véhicule intact → intérêt réduit"))
+    return factors[:4] if factors else [("Profil neutre")]
 
 
 def _build_feature_row(inputs, feat_names):

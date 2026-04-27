@@ -49,20 +49,20 @@ def load_clients():
 
 
 def assign_segment(p, t_high=0.40, t_low=0.25):
-    if p >= t_high:   return "Certain ✅"
-    elif p >= t_low:  return "Incertain ⚠️"
-    else:             return "Improbable ❌"
+    if p >= t_high:   return "Certain"
+    elif p >= t_low:  return "Incertain"
+    else:             return "Improbable"
 
 
 SEG_COLORS = {
-    "Certain ✅":    "#10B981",
-    "Incertain ⚠️": "#1B4FD8",
-    "Improbable ❌": "#94A3B8",
+    "Certain":    "#10B981",
+    "Incertain": "#1B4FD8",
+    "Improbable": "#94A3B8",
 }
 SEG_BG = {
-    "Certain ✅":    "#D1FAE5",
-    "Incertain ⚠️": "#DBEAFE",
-    "Improbable ❌": "#F1F5F9",
+    "Certain":    "#D1FAE5",
+    "Incertain": "#DBEAFE",
+    "Improbable": "#F1F5F9",
 }
 
 
@@ -76,7 +76,7 @@ def show():
     st.markdown("<br>", unsafe_allow_html=True)
 
     if not real:
-        st.info("ℹ️ Données synthétiques — placez `predictions_clients_a_contacter.csv` dans `model_outputs/` pour utiliser vos vraies prédictions.")
+        st.info("Données synthétiques - placez `predictions_clients_a_contacter.csv` dans `model_outputs/` pour utiliser vos vraies prédictions.")
 
     # ── Threshold sliders ──────────────────────────────────────────────────────
     col_sl1, col_sl2, _ = st.columns([1, 1, 1])
@@ -88,18 +88,18 @@ def show():
     df = df_raw.copy()
     df["segment"] = df["proba"].apply(lambda p: assign_segment(p, t_high, t_low))
 
-    certain   = df[df["segment"] == "Certain ✅"]
-    uncertain = df[df["segment"] == "Incertain ⚠️"]
-    unlikely  = df[df["segment"] == "Improbable ❌"]
+    certain   = df[df["segment"] == "Certain"]
+    uncertain = df[df["segment"] == "Incertain"]
+    unlikely  = df[df["segment"] == "Improbable"]
 
     # ── KPI bar ────────────────────────────────────────────────────────────────
-    section_header("Vue d'ensemble — segmentation")
+    section_header("Vue d'ensemble - segmentation")
 
     c1, c2, c3, c4 = st.columns(4)
     c1.markdown(metric_card("Total clients", f"{len(df):,}", "base de prédiction"), unsafe_allow_html=True)
-    c2.markdown(metric_card("Certains ✅",    f"{len(certain):,}",   f"{len(certain)/len(df)*100:.1f}% du total"), unsafe_allow_html=True)
-    c3.markdown(metric_card("Incertains ⚠️", f"{len(uncertain):,}", f"{len(uncertain)/len(df)*100:.1f}% du total"), unsafe_allow_html=True)
-    c4.markdown(metric_card("Improbables ❌", f"{len(unlikely):,}",  f"{len(unlikely)/len(df)*100:.1f}% du total"), unsafe_allow_html=True)
+    c2.markdown(metric_card("Certains",    f"{len(certain):,}",   f"{len(certain)/len(df)*100:.1f}% du total"), unsafe_allow_html=True)
+    c3.markdown(metric_card("Incertains", f"{len(uncertain):,}", f"{len(uncertain)/len(df)*100:.1f}% du total"), unsafe_allow_html=True)
+    c4.markdown(metric_card("Improbables", f"{len(unlikely):,}",  f"{len(unlikely)/len(df)*100:.1f}% du total"), unsafe_allow_html=True)
 
     st.markdown("<br>", unsafe_allow_html=True)
 
@@ -151,9 +151,9 @@ def show():
         st.plotly_chart(fig_pie, use_container_width=True)
 
     # ── Profil des zones ───────────────────────────────────────────────────────
-    section_header("Profilage des segments — variables clés")
+    section_header("Profilage des segments - variables clés")
 
-    seg_choice = st.radio("Segment à analyser", ["Certain ✅", "Incertain ⚠️", "Comparaison globale"],
+    seg_choice = st.radio("Segment à analyser", ["Certain", "Incertain", "Comparaison globale"],
                           horizontal=True)
 
     if seg_choice == "Comparaison globale":
@@ -164,7 +164,7 @@ def show():
     # ── Top clients à contacter ────────────────────────────────────────────────
     section_header("Top clients à contacter")
 
-    tab_certain, tab_uncertain = st.tabs(["✅ Certains (priorité haute)", "⚠️ Incertains (à convaincre)"])
+    tab_certain, tab_uncertain = st.tabs(["Certains (priorité haute)", "Incertains (à convaincre)"])
 
     with tab_certain:
         top_c = certain.sort_values("proba", ascending=False).head(20)
@@ -279,9 +279,9 @@ def _show_canal_strategy(certain, uncertain):
     canal_df.columns = ["Canal", "Certains", "Incertains"]
 
     fig = go.Figure()
-    fig.add_trace(go.Bar(name="Certains ✅",    x=canal_df["Canal"], y=canal_df["Certains"],
+    fig.add_trace(go.Bar(name="Certains",    x=canal_df["Canal"], y=canal_df["Certains"],
                          marker_color="#10B981"))
-    fig.add_trace(go.Bar(name="Incertains ⚠️", x=canal_df["Canal"], y=canal_df["Incertains"],
+    fig.add_trace(go.Bar(name="Incertains", x=canal_df["Canal"], y=canal_df["Incertains"],
                          marker_color="#1B4FD8"))
     fig.update_layout(barmode="group", plot_bgcolor="white", paper_bgcolor="white",
                       height=280, margin=dict(t=10, b=10, l=0, r=0),
@@ -296,8 +296,8 @@ def _show_roi(certain, uncertain):
     col_r1, col_r2 = st.columns(2)
 
     with col_r1:
-        conv_rate_c = st.slider("Taux de conversion — Certains (%)", 10, 90, 55, 5)
-        conv_rate_u = st.slider("Taux de conversion — Incertains (%)", 1, 40, 15, 1)
+        conv_rate_c = st.slider("Taux de conversion - Certains (%)", 10, 90, 55, 5)
+        conv_rate_u = st.slider("Taux de conversion - Incertains (%)", 1, 40, 15, 1)
         cost_contact = st.number_input("Coût de contact (€/client)", 1, 100, 12)
         revenue_contract = st.number_input("Revenu moyen / contrat signé (€)", 100, 5000, 800)
 

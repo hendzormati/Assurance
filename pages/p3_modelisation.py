@@ -60,7 +60,7 @@ def show():
     st.plotly_chart(fig_compare, use_container_width=True)
 
     # Scatter: recall vs F1 colored by family
-    section_header("Recall vs F1 — arbitrage des modèles")
+    section_header("Recall vs F1 - arbitrage des modèles")
 
     def model_family(name):
         if "RF" in name: return "Random Forest"
@@ -147,7 +147,7 @@ def show():
             </div>""", unsafe_allow_html=True)
 
     # ── Feature importance ────────────────────────────────────────────────────
-    section_header("Importance des variables — RF Randomized Search")
+    section_header("Importance des variables - RF Randomized Search")
 
     fi = get_feature_importance()
 

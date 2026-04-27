@@ -8,7 +8,7 @@ from utils.helpers import inject_css, section_header, insight_box, COLORS
 
 @st.cache_data
 def load_train_data():
-    """Load real train_info.csv — adjust path as needed."""
+    """Load real train_info.csv - adjust path as needed."""
     try:
         df = pd.read_csv("data/train_info.csv")
         return df
@@ -77,16 +77,16 @@ def show():
 
     with col_desc:
         st.markdown("<br>", unsafe_allow_html=True)
-        insight_box("Le dataset est fortement déséquilibré : seulement <b>~12%</b> des clients répondent positivement. L'accuracy seule est donc trompeuse — le modèle doit être évalué sur le <b>recall</b> et le <b>ROC AUC</b>.")
+        insight_box("Le dataset est fortement déséquilibré : seulement <b>~12%</b> des clients répondent positivement. L'accuracy seule est donc trompeuse - le modèle doit être évalué sur le <b>recall</b> et le <b>ROC AUC</b>.")
         st.markdown("""
         <div style="margin-top:1rem;display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;font-size:0.82rem;">
             <div style="padding:0.5rem 0.8rem;background:#F8F9FF;border-radius:8px;border:1px solid #e2e8f0">
                 <span style="color:#64748b">Classe 0</span><br>
-                <b style="font-size:1.1rem">87.8%</b> — non intéressé
+                <b style="font-size:1.1rem">87.8%</b> - non intéressé
             </div>
             <div style="padding:0.5rem 0.8rem;background:#EFF6FF;border-radius:8px;border:1px solid #BFDBFE">
                 <span style="color:#1D4ED8">Classe 1</span><br>
-                <b style="font-size:1.1rem;color:#1D4ED8">12.2%</b> — intéressé
+                <b style="font-size:1.1rem;color:#1D4ED8">12.2%</b> - intéressé
             </div>
         </div>""", unsafe_allow_html=True)
 
@@ -96,7 +96,7 @@ def show():
     cat_cols = [c for c in ["genre","ancien_assure","age_vehicule","vehicule_endommage","permis_conduire"] if c in df.columns]
     num_cols = [c for c in ["age","prime_annuelle","anciennete"] if c in df.columns]
 
-    tab1, tab2 = st.tabs(["📊 Variables catégorielles", "📈 Variables numériques"])
+    tab1, tab2 = st.tabs([" Variables catégorielles", " Variables numériques"])
 
     with tab1:
         if cat_cols:
