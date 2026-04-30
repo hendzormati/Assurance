@@ -518,6 +518,39 @@ def get_threshold_data():
 
 @st.cache_data
 def get_feature_importance():
-    features = ["prime_annuelle","anciennete","age","vehicule_endommage_oui","ancien_assure_1","age_vehicule","canal_communication_encoded","code_regional_encoded","tranche_age","genre_male","permis_conduire_1","ancien_assure_0","vehicule_endommage_no","genre_femelle","permis_conduire_0"]
-    importance = [0.198,0.167,0.143,0.108,0.092,0.071,0.058,0.042,0.038,0.025,0.018,0.014,0.011,0.008,0.007]
-    return pd.DataFrame({"feature": features, "importance": importance})
+    return pd.DataFrame({
+        "feature": [
+            "vehicule_endommage_oui",
+            "ancien_assure_1",
+            "vehicule_endommage_no",
+            "ancien_assure_0",
+            "canal_communication_encoded",
+            "age",
+            "tranche_age",
+            "age_vehicule",
+            "code_regional_encoded",
+            "prime_annuelle",
+            "anciennete",
+            "genre_male",
+            "genre_femelle",
+            "permis_conduire_0",
+            "permis_conduire_1",
+        ],
+        "importance": [
+            0.251260,
+            0.210035,
+            0.175803,
+            0.152921,
+            0.076927,
+            0.053799,
+            0.031074,
+            0.024443,
+            0.012439,
+            0.004903,
+            0.003229,
+            0.001230,
+            0.001090,
+            0.000456,
+            0.000392,
+        ],
+    })

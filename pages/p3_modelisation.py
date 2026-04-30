@@ -202,4 +202,4 @@ def show():
 
     with col_txt:
         st.markdown("<br><br>", unsafe_allow_html=True)
-        insight_box("La <b>prime annuelle</b> et l'<b>ancienneté</b> sont de loin les variables les plus discriminantes, représentant à elles seules ~36% de l'importance totale. L'<b>âge du client</b> et l'<b>historique d'assurance</b> complètent le top 4.")
+        insight_box("Les variables les plus importantes sont liées à l'état du véhicule et à l'historique d'assurance. Le véhicule endommagé et le statut ancien assuré expliquent la majorité de la décision du modèle. À l’inverse, la prime annuelle et l’ancienneté ont une importance beaucoup plus faible dans ce modèle.")
